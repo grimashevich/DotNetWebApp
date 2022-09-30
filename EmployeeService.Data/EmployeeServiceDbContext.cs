@@ -1,6 +1,15 @@
-﻿namespace EmployeeService.Data;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class EmployeeServiceDbContext
+namespace EmployeeService.Data;
+
+public class EmployeeServiceDbContext : DbContext
 {
-    
+    public DbSet<EmployeeType> EmployeeTypes { get; set; }
+    public DbSet<Department> Departments { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+
+    public EmployeeServiceDbContext(DbContextOptions options) : base(options)
+    {
+
+    }
 }

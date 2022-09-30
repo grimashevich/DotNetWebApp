@@ -1,4 +1,5 @@
-﻿using EmployeeService.Models;
+﻿using EmployeeService.Data;
+using EmployeeService.Models;
 using EmployeeService.Models.Dto;
 using EmployeeService.Services;
 using Microsoft.AspNetCore.Http;
@@ -33,41 +34,42 @@ namespace EmployeeService.Controllers
             return Ok(_departmentRepository.GetAll().Select(et =>
                 new DepartmentDto
                 {
-                    Id = GuidConverter.FromGuid(et.Id),
+                    Id = et.Id,
                     Description = et.Description
                 }
             ).ToList());
         }
 
         [HttpGet("getbyid")]
-        public ActionResult<DepartmentDto> GetDepartmentById([FromQuery] int id)
+        public ActionResult<DepartmentDto> GetDepartmentById([FromQuery] Guid id)
         {
             Department result;
 
-            result = _departmentRepository.GetById(GuidConverter.ToGuid(id));
+            result = _departmentRepository.GetById(id);
             return Ok(new DepartmentDto
             {
-                Id = GuidConverter.FromGuid(result.Id),
+                Id = result.Id,
                 Description = result.Description
             });
         }
         
         [HttpPost("create")]
-        public ActionResult<int> CreateDepartment([FromQuery] string description)
+        public ActionResult<Guid> CreateDepartment([FromQuery] string description)
         {
             return Ok(_departmentRepository.Create(new Department
             {
                 Description = description
             }));
         }
+
         [HttpDelete("delete")]
-        public ActionResult<bool> DeleteDepartment([FromQuery] int id)
+        public ActionResult<bool> DeleteDepartment([FromQuery] Guid id)
         {
-            return Ok(_departmentRepository.Delete(GuidConverter.ToGuid(id)));
+            return Ok(_departmentRepository.Delete(id));
         }
 
         [HttpPut("update")]
-        public ActionResult<bool> UpdateDepartment([FromQuery] int id)
+        public ActionResult<bool> UpdateDepartment([FromQuery] Guid id)
         {
             return true;
         }

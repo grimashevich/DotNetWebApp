@@ -1,6 +1,8 @@
-﻿using EmployeeService.Models;
+﻿using EmployeeService.Data;
+using EmployeeService.Models;
 using EmployeeService.Models.Dto;
 using EmployeeService.Services;
+using EmployeeService.Services.Impl;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +10,7 @@ namespace EmployeeService.Controllers
 {
     [Route("api/[controller]/employee-types")]
     [ApiController]
-    public class DictionariesController : ControllerBase
+    public class EmployeTypeController : ControllerBase
     {
 
         #region Services 
@@ -19,7 +21,7 @@ namespace EmployeeService.Controllers
 
         #region Constructors
 
-        public DictionariesController(IEmployeeTypeRepository employeeTypeRepository)
+        public EmployeTypeController(IEmployeeTypeRepository employeeTypeRepository)
         {
             _employeeTypeRepository = employeeTypeRepository;
         }
@@ -41,7 +43,7 @@ namespace EmployeeService.Controllers
         }        
         
         [HttpGet("getbyid")]
-        public ActionResult<EmployeeTypeDto> GetAllEmployeeById([FromQuery] int id)
+        public ActionResult<EmployeeTypeDto> GetAllEmployeeById([FromQuery] Guid id)
         {
             EmployeeType result;
 
@@ -53,16 +55,23 @@ namespace EmployeeService.Controllers
             });
         }
 
+		[HttpPost("create")]
+		public ActionResult<Guid> CreateEmployeType([FromQuery] string description)
+        {
+            return Ok(_employeeTypeRepository.Create(new EmployeeType
+            {
+                Description = description
+            }));
+		}
 
-
-        [HttpDelete("delete")]
-        public ActionResult<bool> DeleteEmployeeType([FromQuery] int id)
+		[HttpDelete("delete")]
+        public ActionResult<bool> DeleteEmployeeType([FromQuery] Guid id)
         {
             return Ok(_employeeTypeRepository.Delete(id));
         }
 
         [HttpPut("update")]
-        public ActionResult<bool> UpdateEmployeType([FromQuery] int id)
+        public ActionResult<bool> UpdateEmployeType([FromQuery] Guid id)
         {
             return true;
         }

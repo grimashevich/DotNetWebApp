@@ -1,6 +1,8 @@
+using EmployeeService.Data;
 using EmployeeService.Services;
 using EmployeeService.Services.Impl;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 
 namespace EmployeeService
@@ -39,6 +41,15 @@ namespace EmployeeService
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeTypeRepository, EmployeeTypeRepository>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+            #endregion
+
+            #region Configure EF DBContext Service
+
+            builder.Services.AddDbContext<EmployeeServiceDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration["Settings:DatabaseOptions:ConnectionString"]);
+            });
 
             #endregion
 

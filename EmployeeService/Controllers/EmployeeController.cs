@@ -1,4 +1,5 @@
-﻿using EmployeeService.Models;
+﻿using EmployeeService.Data;
+using EmployeeService.Models;
 using EmployeeService.Models.Dto;
 using EmployeeService.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ namespace EmployeeService.Controllers
         }
 
         [HttpGet("getbyid")]
-        public ActionResult<EmployeeDto> GetEmployeeById([FromQuery] int id)
+        public ActionResult<EmployeeDto> GetEmployeeById([FromQuery] Guid id)
         {
             Employee result;
 
@@ -63,7 +64,7 @@ namespace EmployeeService.Controllers
         }
         
         [HttpPost("create")]
-        public ActionResult<int> CreateEmployee([FromBody] Employee employee)
+        public ActionResult<Guid> CreateEmployee([FromBody] Employee employee)
         {
             return Ok(_employeeRepository.Create(new Employee
             {
@@ -77,13 +78,13 @@ namespace EmployeeService.Controllers
             }));
         }
         [HttpDelete("delete")]
-        public ActionResult<bool> DeleteEmployee([FromQuery] int id)
+        public ActionResult<bool> DeleteEmployee([FromQuery] Guid id)
         {
             return Ok(_employeeRepository.Delete(id));
         }
 
         [HttpPut("update")]
-        public ActionResult<bool> UpdateEmployee([FromQuery] int id)
+        public ActionResult<bool> UpdateEmployee([FromQuery] Guid id)
         {
             return true;
         }
