@@ -35,7 +35,7 @@ namespace EmployeeService.Controllers
                 new DepartmentDto
                 {
                     Id = et.Id,
-                    Description = et.Description
+                    Description = et.Description                 
                 }
             ).ToList());
         }
