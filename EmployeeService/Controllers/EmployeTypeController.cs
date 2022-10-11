@@ -3,12 +3,14 @@ using EmployeeService.Models;
 using EmployeeService.Models.Dto;
 using EmployeeService.Services;
 using EmployeeService.Services.Impl;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeService.Controllers
 {
-    [Route("api/[controller]/employee-types")]
+    [Authorize]
+	[Route("api/[controller]/employee-types")]
     [ApiController]
     public class EmployeTypeController : ControllerBase
     {
